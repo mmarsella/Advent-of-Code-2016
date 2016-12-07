@@ -1,5 +1,5 @@
 
-
+// Mark Marsella & Sam Hastings
 
 /*
 --- Day 4: Security Through Obscurity ---
@@ -23,7 +23,11 @@ What is the sum of the sector IDs of the real rooms?
 const fs = require('fs');
 const lines = fs.readFileSync('day4.txt').toString().split("\n"); //save input lines in an array
 
+// var alphabet = ['a', 'b', 'c', 'd', 'e']
 
+const letters = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
+
+console.log('letters---------', letters.indexOf('t'))
 
 console.log('lines', Array.isArray(lines));
 
@@ -38,7 +42,12 @@ var sum = 0;
 
 //iterate over all puzzle data
 for(var g=0; g < lines.length; g++){
-  sum += checkSum(lines[g]);
+  // part 1
+  // sum += checkSum(lines[g]);
+
+  //part 2
+  checkSum(lines[g]);
+  // part2Decrypt(lines[g]);
 }
 
 
@@ -80,7 +89,14 @@ function checkSum(code){
   // console.log(checkAnswer(result, key));
 
   if(checkAnswer(result, key)){
-    return parseInt(numbers);
+   
+    // part 1
+    // return parseInt(numbers);
+
+   // part 2
+   console.log('*******************')
+    part2Decrypt(code);
+
   }
 
   return 0;
@@ -136,8 +152,6 @@ function makeResult(cache){
     sortedArr.splice(index, 1); //remove where the highestVal was from the sortedArr
   }
 
-  // console.log('******** HIGHEST VALUES', highestValues);
-
 
   return highestValues;
 
@@ -150,10 +164,59 @@ function checkAnswer(result, key){
 
   result = result.join("")
 
-  console.log(result == key);
-  // console.log('********************');
-  // console.log('key', key);
-  // console.log('result', result);
+  // console.log(result == key);
 
   return (result == key);
 }
+
+
+
+// decrpyt each code before checking sum
+function part2Decrypt(code){
+  var newArr = code.split("-");
+
+  var letterChunks = newArr.slice(0,newArr.length - 1);
+  var numbers = parseInt(newArr[newArr.length -1].slice(0,3));
+  var key = newArr[newArr.length -1].split(numbers)[1];
+
+  // console.log('numbers', numbers);
+
+
+  var modifyArr = [];
+
+
+
+  // access each chunk
+  for(var i=0; i<letterChunks.length;i++){
+    //access each char in chunk
+
+
+    var newChunk = "";
+    for(var j=0; j<letterChunks[i].length;j++){
+      // console.log('letChunk', letterChunks[i][j]) // a letter
+
+      // console.log('*********', letters.indexOf(letterChunks[i][j]) + 5);
+      // console.log('letters ', letters[30]);
+
+     newChunk += letters[letters.indexOf(letterChunks[i][j]) + 5]
+
+    }
+    modifyArr.push(newChunk);
+  } 
+
+  console.log('NEW ARR: ', modifyArr +  "--> " + numbers);
+
+  return modifyArr;
+
+}
+
+var newDemo = 'qzmt-zixmtkozy-ivhz-343';
+part2Decrypt(newDemo);
+
+
+
+
+
+
+
+
