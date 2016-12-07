@@ -1,3 +1,6 @@
+
+
+
 /*
 --- Day 4: Security Through Obscurity ---
 
@@ -17,10 +20,29 @@ Of the real rooms from the list above, the sum of their sector IDs is 1514.
 What is the sum of the sector IDs of the real rooms?
 */
 
+const fs = require('fs');
+const lines = fs.readFileSync('day4.txt').toString().split("\n"); //save input lines in an array
+
+
+
+console.log('lines', Array.isArray(lines));
+
 
 var demo = "aaaaa-bbb-za-ya-x-123[abxyz]";
 var demo2 = "a-b-c-d-e-f-g-h-987[abcde]";
 var demo3 = "not-a-real-room-404[oarel]";
+var demo4 = "totally-real-room-200[decoy]";
+
+// to inc. real ids
+var sum = 0;
+
+//iterate over all puzzle data
+for(var g=0; g < lines.length; g++){
+  sum += checkSum(lines[g]);
+}
+
+
+console.log('THE ANSWER: ', sum);
 
 function checkSum(code){
 
@@ -45,170 +67,93 @@ function checkSum(code){
     }
   }
 
-  console.log('newArr: ', newArr);
-  console.log('numbers: ', numbers);
-  console.log('key: ', key);
-  console.log('letterChunks: ', letterChunks);
+  // console.log('newArr: ', newArr);
+  // console.log('numbers: ', numbers);
+  // console.log('key: ', key);
+  // console.log('letterChunks: ', letterChunks);
 
-  console.log('cache: ', cache);
+  // console.log('cache: ', cache);  //result of counting chars
 
-  makeResult(cache)
+  // this is where we analyze the data
+  var result = makeResult(cache);
+
+  // console.log(checkAnswer(result, key));
+
+  if(checkAnswer(result, key)){
+    return parseInt(numbers);
+  }
+
+  return 0;
+
+
 };
 
-checkSum(demo3);
 
 /*
 A room is real (not a decoy) if the checksum is the five most common letters in the encrypted name, 
 in order, with ties broken by alphabetization
 */
 
+
+
+
+
 // creates a five, most common letter result of the code using the cache
 function makeResult(cache){
 
   
   var highestValues = [];
-
-
-  //array of values
-  var arr = Object.keys( cache ).map(function ( key ) { return cache[key]; });
-
-  //sorted from highest to lowest
-  var sortedArr = arr.sort().reverse();
-
-  //loop over object
-  for(key in cache){
-    //compare each key against all of the values
-    for(var i=0; i < sortedArr.length; i++){
-      if(cache[key] === sortedArr[i]){
-        if(cache[key] === sortedArr[i - 1]){}
-        highestValues.push(key);
-        break;
-      }
-
-    }
-
-  }
-
-  var ties = [];
-  //check for ties
-
-  //iterate through each high value
-  for(var t=0; t < highestValues.length; t++){
-    console.log('****** NOW ON', highestValues[t]);
-    //check each value against the rest of the array
-    console.log('j:', j);
-    console.log('t:', t);
-
-
-    if(t === highestValues.length - 1){
-      console.log('---- LAST ONE ----');
-      if(cache[highestValues[t]] === cache[highestValues[t - 1]]){
-        ties.push(highestValues[t]);
-        break;
-      }
-    }
-
-
-    for(var j=t+1; j < highestValues.length ; j++){
-      console.log('this:',cache[highestValues[t]])
-      // if there is a match, throw it in a ties array
-      if(cache[highestValues[t]] === cache[highestValues[j]]){
-
-        //make sure its not already in the ties array
-        if(ties.indexOf(highestValues[j] > -1)){
-          // console.log('indexOf', ties.indexOf(highestValues[j]));
-          ties.push(highestValues[t]);
-          break;
-        }
-      }    
-    }
-  }
-
-
-  // sort the ties
-  ties.sort();
-
-
- 
   
 
-  console.log('******************************************')
-  console.log('before ties: highest values', highestValues.slice(0,5));
-  console.log('before ties: ties', ties.slice(0,5));
-  console.log('******************************************')
+  //array of values
+  var arr = Object.keys( cache ).map(function ( key ) { return key; });
 
-  if(ties.slice(0,5) == highestValues.slice(0,5)){
-    console.log('$$$$$$$$$$$$$$$$')
+
+  // console.log('arr', arr);
+
+
+  //sorted from highest to lowest
+  var sortedArr = arr.sort();
+
+  // console.log('sirtArr', sortedArr);
+
+
+  while(highestValues.length < 5){
+    var highestVal = 0;
+    var index;
+    var highKey;
+    //loop through every key and grab the highest value
+    for(var i=0; i < sortedArr.length; i++){
+      if(cache[sortedArr[i]] > highestVal){
+        highestVal = cache[sortedArr[i]];
+        index = i;
+        highKey = sortedArr[i];
+      }
+      // console.log("looped: ", cache[sortedArr[i]]);
+    } //end for loop
+
+    highestValues.push(highKey); // add highVal to array
+    sortedArr.splice(index, 1); //remove where the highestVal was from the sortedArr
   }
 
-
-  var match = true;
-  ties.forEach(function(el,index){
-    if(el != highestValues[index]){
-      match = false;
-    }
-  })
-
-  console.log('match?', match);
+  // console.log('******** HIGHEST VALUES', highestValues);
 
 
-  if(!match){
-    insertTies(highestValues,ties);
-  }else{
-    highestValues = highestValues.slice(0,5);
-  }
-
-
-
-
-
-
-
-  //insert sorted ties back into array
-
-
-  console.log('highest vals: ', highestValues);
-  console.log('ties', ties);
+  return highestValues;
 
 }
 
+function checkAnswer(result, key){
 
+  result.unshift('[');
+  result.push(']');
 
-  // need to think of a better way to handle this
+  result = result.join("")
 
-  function insertTies(highestValues, ties){
+  console.log(result == key);
+  // console.log('********************');
+  // console.log('key', key);
+  // console.log('result', result);
 
-     var length = ties.length;
-    // HANDLE TIES
-    for(var y=0; y < highestValues.length; y++){
-      for(var g=0; g < ties.length; g++){
-        console.log('TIES', ties);
-        console.log('highestVals[g]', highestValues[y]);
-        if(highestValues[y] === ties[g]){
-          console.log('splicin', ties[g]);
-
-
-          for(var h=0; h<length; h++){
-            highestValues.splice(highestValues.indexOf(ties[g+h]),1,ties.shift());
-          }
-          break;
-        }
-      }
-    }
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  return (result == key);
+}
