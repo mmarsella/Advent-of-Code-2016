@@ -2,13 +2,8 @@ const md5 = require('md5-hex');
 
 // Puzzle Input -- uqwqemis
 
-var hexHash = md5('abc0');
-var hexHashInt = md5('abc' + 0);
-
-
 var password = '';
-
-var passwordObj = {};
+var passwordObj = {};  //for part 2
 
 // keep incrementing counter and md5 key + counter
 // if md5(key+counter) has 5 0's at beginning, append to password
@@ -47,16 +42,13 @@ while(part2Counter < 8){
       // password += key[5]
     }
   }
-
-
 }
 
 for(var objKey in passwordObj){
   console.log('adding to pass: ', passwordObj[objKey]);
   password += passwordObj[objKey]
 }
+
+
 console.log('PASSWORD IS: ', password);
 
-// console.log('hexHash: ', hexHash);
-
-// 00000 1 5

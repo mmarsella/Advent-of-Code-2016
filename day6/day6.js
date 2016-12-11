@@ -1,5 +1,5 @@
 const fs = require('fs');
-const lines = fs.readFileSync('demoData.txt').toString().split("\n").map(function(el,index){
+const lines = fs.readFileSync('day6.txt').toString().split("\n").map(function(el,index){
   var arr = el.split('');
   return arr;
 }); //save input lines in an array
@@ -54,14 +54,15 @@ for(var i=0; i<lines.length;i++){
 
     console.log('arr', arr);
 
-    var highestVal = 0;
+    var highestVal = cacher[obj][arr[0]]; // part 2 solution
+    // var highestVal = 0; // part 1 solution
     var highKey;
 
 
     //loop through every key and grab the highest value
     for(var m=0; m < arr.length; m++){
   
-        if(cacher[obj][arr[m]] > highestVal){
+        if(cacher[obj][arr[m]] < highestVal){
           highestVal = cacher[obj][arr[m]];
           // index = m;
           highKey = arr[m];
