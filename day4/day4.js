@@ -80,7 +80,6 @@ function checkSum(code){
   // console.log('numbers: ', numbers);
   // console.log('key: ', key);
   // console.log('letterChunks: ', letterChunks);
-
   // console.log('cache: ', cache);  //result of counting chars
 
   // this is where we analyze the data
@@ -93,26 +92,13 @@ function checkSum(code){
     // part 1
     // return parseInt(numbers);
 
-   // part 2
-   console.log('*******************')
+     // part 2
+    console.log('*******************')
     part2Decrypt(code);
 
   }
-
   return 0;
-
-
 };
-
-
-/*
-A room is real (not a decoy) if the checksum is the five most common letters in the encrypted name, 
-in order, with ties broken by alphabetization
-*/
-
-
-
-
 
 // creates a five, most common letter result of the code using the cache
 function makeResult(cache){
@@ -124,15 +110,8 @@ function makeResult(cache){
   //array of values
   var arr = Object.keys( cache ).map(function ( key ) { return key; });
 
-
-  // console.log('arr', arr);
-
-
   //sorted from highest to lowest
   var sortedArr = arr.sort();
-
-  // console.log('sirtArr', sortedArr);
-
 
   while(highestValues.length < 5){
     var highestVal = 0;
@@ -145,7 +124,6 @@ function makeResult(cache){
         index = i;
         highKey = sortedArr[i];
       }
-      // console.log("looped: ", cache[sortedArr[i]]);
     } //end for loop
 
     highestValues.push(highKey); // add highVal to array
@@ -158,13 +136,9 @@ function makeResult(cache){
 }
 
 function checkAnswer(result, key){
-
   result.unshift('[');
   result.push(']');
-
   result = result.join("")
-
-  // console.log(result == key);
 
   return (result == key);
 }
@@ -174,32 +148,20 @@ function checkAnswer(result, key){
 // decrpyt each code before checking sum
 function part2Decrypt(code){
   var newArr = code.split("-");
-
   var letterChunks = newArr.slice(0,newArr.length - 1);
   var numbers = parseInt(newArr[newArr.length -1].slice(0,3));
   var key = newArr[newArr.length -1].split(numbers)[1];
-
-  // console.log('numbers', numbers);
-
-
   var modifyArr = [];
-
-
 
   // access each chunk
   for(var i=0; i<letterChunks.length;i++){
     //access each char in chunk
-
-
     var newChunk = "";
     for(var j=0; j<letterChunks[i].length;j++){
       // console.log('letChunk', letterChunks[i][j]) // a letter
 
-      // console.log('*********', letters.indexOf(letterChunks[i][j]) + 5);
-      // console.log('letters ', letters[30]);
-
-     newChunk += letters[letters.indexOf(letterChunks[i][j]) + 5]
-
+      // Index of current char in alphabet and increment the sector id % alphabet's length
+     newChunk += letters[letters.indexOf(letterChunks[i][j]) + (numbers % 26)]
     }
     modifyArr.push(newChunk);
   } 
@@ -207,11 +169,10 @@ function part2Decrypt(code){
   console.log('NEW ARR: ', modifyArr +  "--> " + numbers);
 
   return modifyArr;
-
 }
 
-var newDemo = 'qzmt-zixmtkozy-ivhz-343';
-part2Decrypt(newDemo);
+// var newDemo = 'qzmt-zixmtkozy-ivhz-343';
+// part2Decrypt(newDemo);
 
 
 
