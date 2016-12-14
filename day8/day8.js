@@ -10,8 +10,8 @@ rotate column x=A by B shifts all of the pixels in column A (0 is the left colum
 Pixels that would fall off the bottom appear at the top of the column.
 */
 
-const maxWidth = 50;
-const maxHeight = 6;
+var maxWidth = 50;
+var maxHeight = 6;
 
 
 //for constructing the final array of pixels
@@ -72,41 +72,45 @@ rotate row y=0 by 2
 
 var cmd = 'rotate column x=30 by 1';
 var cmd2 = 'rect 1x1';
+var cmd3 = 'rotate row y=0 by 3';
 
 
 
-// rotates a row RIGHT
 
 // loop through the masterGrid 
 // extract all the points that have x = x_cmd
 // increase all fo the Y values by the second CMD
-var cmd3 = 'rotate row y=0 by 3';
 
+// rotates a row RIGHT
 function shiftRow(cmd){
 	var y = cmd.split(' ')[2].split('=')[1];
-	var amt = cmd.split(' ')[4];
-
+	var amt = parseInt(cmd.split(' ')[4]);
 	var arr;
-
-	// MAKE FOR LOOP INSTEAD
 	
-	//find coord on master grid
-	masterGrid.forEach(function(el){
-		//find any coords along this axis, increment by amt
-		// if amt > maxWidth, then el === (coord.x + amt) % maxWidth
-		arr = el.split(',');  // [0] is x, [1] is y
+	for(var i=0; i<masterGrid.length;i++){
+		arr = masterGrid[i].split(',');
 		if(arr[1] === y){
-			arr[0] = (arr[0] + amt) % maxWidth;
+			arr[0] = (parseInt(arr[0]) + amt) % maxWidth;
+			arr[0] = arr[0].toString();
 		}
-		masterGrid[el] = arr.join(",")
-	})
-
+		masterGrid[i] = arr.join(",")
+	}
 }
 
 // rotates a column DOWN
 function shiftColumn(cmd){
 	var x = cmd.split(' ')[2].split('=')[1];
-	var amt = cmd.split(' ')[4];
+	var amt = parseInt(cmd.split(' ')[4]);
+	var arr;
+	
+	for(var i=0; i<masterGrid.length;i++){
+		arr = masterGrid[i].split(',');
+		if(arr[0] === x){
+			arr[1] = (parseInt(arr[1]) + amt) % maxWidth;
+			arr[1] = arr[1].toString();
+		}
+		masterGrid[i] = arr.join(",")
+	}
 }
 
 
