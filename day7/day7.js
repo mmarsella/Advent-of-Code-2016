@@ -56,15 +56,18 @@ function checkSequence(chunk,arr){
 
   console.log('THE CHUNK', chunk, typeof chunk);
   var temp = chunk[0];  //set to first char
+
+
   var prevCharIndex;
   var matchSequence = '';
+
 
   //start loop from 2nd char
   for(var i=1; i<chunk.length; i++){
       // console.log('i inside', i);
 
     // console.log('temp', temp);
-    // console.log('chunk[i]', chunk[i]);
+    console.log('chunk[i]', chunk[i]);
     
     //if there is a match
     if(temp === chunk[i+1]  && temp !== chunk[i]){     //   B  A  B 
@@ -73,6 +76,7 @@ function checkSequence(chunk,arr){
 
         matchSequence = temp + chunk[i] + chunk[i + 1];
         arr.push(matchSequence);
+        temp = chunk[i];
       
     }else{
       temp = chunk[i];
@@ -92,12 +96,20 @@ function crackCodePart2(code){
   console.log(code);
   console.log('****************************')
   var hyperNet = code.match(/\[.*?\]/g);  //hyperNet sequences
+
+
   var chunks = code.split(/\[.*?\]/g);  // chunks 
   hyperNetMatches = [];
   chunkMatches = [];
   var result; 
 
   console.log('hyperNet: ', hyperNet);
+
+  hyperNet = hyperNet.map(function(el){
+    return el.slice(1,-1);
+  });
+
+  console.log('hyperNet AFTER MAP $$$$$$: ', hyperNet);
   console.log('chunks: ', chunks);
 
 
