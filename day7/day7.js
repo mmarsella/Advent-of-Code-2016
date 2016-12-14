@@ -27,7 +27,7 @@ var sum = 0;
 var arr = [realDemo,realDemo2,fakeDemo];
 var otherSum = 0;
 
-// crackCodePart2(part2Demo);
+crackCodePart2(part2Demo);
 
 
 // var hyperNetMatches = 0;
@@ -45,45 +45,16 @@ console.log('otherSum: ', otherSum);
 console.log('length ', lines.length);
 
 
-/****** PART 1 SOLUTION **********/
-// function crackCode(code){
-
-//   console.log('********* CODE *************')
-//   console.log(code);
-//   console.log('****************************')
-//   var hyperNet = code.match(/\[.*?\]/g);  //hyperNet sequences
-//   var chunks = code.split(/\[.*?\]/g);  // chunks 
-
-//   console.log('hyperNet: ', hyperNet);
-//   console.log('chunks: ', chunks);
-
-//   for(var j=0; j<hyperNet.length; j++){
-//     if(checkSequence(hyperNet[j])){
-//       hyperNetMatches++;
-//       console.log('HYPERNET WAS A MATCH --> NOT VALID');
-//       return 0;
-//     }    
-//   }
-//   console.log('^^^^^^^^^^^^FINISH HYPERNET TESTS ^^^^^^^^^^^^^^^^^^^^')
-
-//   // iterate over each chunk, if there is a match return true
-//   for(var i=0; i < chunks.length; i++){
-//     if(checkSequence(chunks[i])){
-//       console.log('WORKED!');
-//       otherSum++;
-//       return 1;
-//     }
-//   }
-
-//   console.log('NOTHINNNN');
-//   return 0; 
-// }
 
 function checkSequence(chunk,arr){
   //check if there are 2 sequential chars
   // if YES:  check if the char before the pair === char after the pair
   // console.log('CHUNK IN CHECK', chunk);
   // console.log('\n\n');
+
+
+
+  console.log('THE CHUNK', chunk, typeof chunk);
   var temp = chunk[0];  //set to first char
   var prevCharIndex;
   var matchSequence = '';
@@ -105,7 +76,6 @@ function checkSequence(chunk,arr){
       
     }else{
       temp = chunk[i];
-      // prevCharIndex = i - 1;
     }
   } //end for
 
@@ -177,6 +147,40 @@ function crackCodePart2(code){
   return 0; 
 }
 
+
+/****** PART 1 SOLUTION **********/
+// function crackCode(code){
+
+//   console.log('********* CODE *************')
+//   console.log(code);
+//   console.log('****************************')
+//   var hyperNet = code.match(/\[.*?\]/g);  //hyperNet sequences
+//   var chunks = code.split(/\[.*?\]/g);  // chunks 
+
+//   console.log('hyperNet: ', hyperNet);
+//   console.log('chunks: ', chunks);
+
+//   for(var j=0; j<hyperNet.length; j++){
+//     if(checkSequence(hyperNet[j])){
+//       hyperNetMatches++;
+//       console.log('HYPERNET WAS A MATCH --> NOT VALID');
+//       return 0;
+//     }    
+//   }
+//   console.log('^^^^^^^^^^^^FINISH HYPERNET TESTS ^^^^^^^^^^^^^^^^^^^^')
+
+//   // iterate over each chunk, if there is a match return true
+//   for(var i=0; i < chunks.length; i++){
+//     if(checkSequence(chunks[i])){
+//       console.log('WORKED!');
+//       otherSum++;
+//       return 1;
+//     }
+//   }
+
+//   console.log('NOTHINNNN');
+//   return 0; 
+// }
 
 
 // function part2Checker(chunk){
