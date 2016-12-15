@@ -10,6 +10,11 @@ rotate column x=A by B shifts all of the pixels in column A (0 is the left colum
 Pixels that would fall off the bottom appear at the top of the column.
 */
 
+var fs = require('fs');
+var lines = fs.readFileSync('day8.txt').toString().split("\n"); //save input lines in an array
+
+
+// console.log('lines', lines);
 var maxWidth = 50;
 var maxHeight = 6;
 
@@ -22,36 +27,36 @@ var masterGrid = [];
 
 
 for(var i=0; i < 50; i++){
-	xCoords.push(i);
+    xCoords.push(i);
 }
 
-var demoInput = 'rect 3x2';
+// var demoInput = 'rect 3x2';
 // W X H
 
 // Create a rectangle
 function makeRect(dims){
   // grab  X and Y coords from dim 
- 	var coords = dims.split('rect ')[1].split('x');
- 	var newCoord;
+     var coords = dims.split('rect ')[1].split('x');
+     var newCoord;
   var x = parseInt(coords[0]);
-  var y = parseInt(coords[1]);  // we get this from parsing dim	
+  var y = parseInt(coords[1]);  // we get this from parsing dim    
   
-	console.log('x: ', x);
-	console.log('y: ', y);
+    // console.log('x: ', x);
+    // console.log('y: ', y);
   var rect = []; //inserting coords here
   // var newArr = [];
 
   //insert X values
   for(var i=0; i < y; i++){
-  		//insert y values
+          //insert y values
     for(var j=0; j < x; j++){
-    		console.log('pushing!');
-    		newCoord = [j,i].toString();
-    		// check if the coord is not in the master grid
-    		// if it isn't --> lets add it
-    		if(masterGrid.indexOf(newCoord) === -1){
-		      masterGrid.push(newCoord);    	
-    		}
+            console.log('pushing!');
+            newCoord = [j,i].toString();
+            // check if the coord is not in the master grid
+            // if it isn't --> lets add it
+            if(masterGrid.indexOf(newCoord) === -1){
+              masterGrid.push(newCoord);        
+            }
     }
   }
   console.log('RECT NOW', rect);
@@ -70,9 +75,9 @@ rotate row y=1 by 5
 rotate row y=0 by 2
 */
 
-var cmd = 'rotate column x=30 by 1';
-var cmd2 = 'rect 1x1';
-var cmd3 = 'rotate row y=0 by 3';
+// var cmd = 'rotate column x=30 by 1';
+// var cmd2 = 'rect 1x1';
+// var cmd3 = 'rotate row y=0 by 3';
 
 
 
@@ -83,69 +88,63 @@ var cmd3 = 'rotate row y=0 by 3';
 
 // rotates a row RIGHT
 function shiftRow(cmd){
-	var y = cmd.split(' ')[2].split('=')[1];
-	var amt = parseInt(cmd.split(' ')[4]);
-	var arr;
-	
-	for(var i=0; i<masterGrid.length;i++){
-		arr = masterGrid[i].split(',');
-		if(arr[1] === y){
-			arr[0] = (parseInt(arr[0]) + amt) % maxWidth;
-			arr[0] = arr[0].toString();
-		}
-		masterGrid[i] = arr.join(",")
-	}
+    var y = cmd.split(' ')[2].split('=')[1];
+    var amt = parseInt(cmd.split(' ')[4]);
+    var arr;
+    
+    for(var i=0; i<masterGrid.length;i++){
+        arr = masterGrid[i].split(',');
+        if(arr[1] === y){
+            arr[0] = (parseInt(arr[0]) + amt) % maxWidth;
+            arr[0] = arr[0].toString();
+        }
+        masterGrid[i] = arr.join(",")
+    }
 }
 
 // rotates a column DOWN
 function shiftColumn(cmd){
-	var x = cmd.split(' ')[2].split('=')[1];
-	var amt = parseInt(cmd.split(' ')[4]);
-	var arr;
-	
-	for(var i=0; i<masterGrid.length;i++){
-		arr = masterGrid[i].split(',');
-		if(arr[0] === x){
-			arr[1] = (parseInt(arr[1]) + amt) % maxWidth;
-			arr[1] = arr[1].toString();
-		}
-		masterGrid[i] = arr.join(",")
-	}
+    var x = cmd.split(' ')[2].split('=')[1];
+    var amt = parseInt(cmd.split(' ')[4]);
+    var arr;
+    
+    for(var i=0; i<masterGrid.length;i++){
+        arr = masterGrid[i].split(',');
+        if(arr[0] === x){
+            arr[1] = (parseInt(arr[1]) + amt) % maxWidth;
+            arr[1] = arr[1].toString();
+        }
+        masterGrid[i] = arr.join(",")
+    }
 }
 
 
 // runs throughh all test case
 function part1(cmd){
+    //check line for rect/rotate
+    if(cmd.split(' ')[0] === 'rect'){
+        makeRect(cmd);
+    }
+    else if(cmd.split(' ')[1] === 'column'){
+        shiftColumn(cmd);
+        }
+    else{
+        shiftRow(cmd);
+        }        
+} //end part1
 
-	//check line for rect/rotate
-	if(cmd.split(' ')[0] === 'rect'){
-		makeRect(cmd)
-	}
-	else if(cmd.split(' ')[1] === 'column'){
-		shiftY(cmd);
-		}
-	else{
-		shiftX(cmd);
-		}
-	} //end part1
+for(var i=0; i<lines.length;i++){
+    part1(lines[i]);
+ }
+ console.log('$$$$$$$$$');
+ console.log('MASTERGRID LENGTH IS', masterGrid.length);
+ // console.log('MASTERGRID IS', masterGrid);
+// Part 1 Answer -->  106
 
-	//if rect, makeRect
-	//if rotate, check for ROW or COLUMN
-	// if row, shiftY
-	// if column, shiftX
+// PART 2
 
-	//loop through all input
+// for(var j=0; j<masterGrid.length;j++){
+    
+// }
 
-	//check overlap of lights
-
-
-	//Determine what action to make  
-
-	//if rect --> create new rectangle
-
-	// while rotate === TRUE 
-
-
-
-var x = makeRect(demoInput);
-
+// 
