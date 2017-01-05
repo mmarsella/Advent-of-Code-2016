@@ -10,6 +10,10 @@ rotate column x=A by B shifts all of the pixels in column A (0 is the left colum
 Pixels that would fall off the bottom appear at the top of the column.
 */
 
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
+}
+
 var fs = require('fs');
 var lines = fs.readFileSync('day8.txt').toString().split("\n"); //save input lines in an array
 
@@ -50,7 +54,7 @@ function makeRect(dims){
   for(var i=0; i < y; i++){
           //insert y values
     for(var j=0; j < x; j++){
-            console.log('pushing!');
+            // console.log('pushing!');
             newCoord = [j,i].toString();
             // check if the coord is not in the master grid
             // if it isn't --> lets add it
@@ -59,7 +63,7 @@ function makeRect(dims){
             }
     }
   }
-  console.log('RECT NOW', rect);
+  // console.log('RECT NOW', rect);
   return masterGrid;
 }
 
@@ -142,9 +146,69 @@ for(var i=0; i<lines.length;i++){
 // Part 1 Answer -->  106
 
 // PART 2
+var part2Answer = '';
 
-// for(var j=0; j<masterGrid.length;j++){
-    
-// }
 
-// 
+// CONVERT STRING GRID TO ARRAYS
+
+var newArr = [];  
+for(var i=0; i < masterGrid.length; i++){
+  var temp = [];
+  temp.push(parseInt(masterGrid[i].split(',')[1]));
+  temp.push(parseInt(masterGrid[i].split(',')[0]));
+  newArr.push(temp);
+}
+
+newArr.sort();
+
+console.log('newArr', newArr);
+// console.log('y', y);
+// console.log('x', x);
+
+
+
+
+
+for(var y=0; y < 9; y++){
+  // var line = '**************************************************';
+  var line = '                                                  ';
+
+  // console.log('y', y);
+  // loop over x axis
+  // star anything that falls within first 5
+  for(var x=0; x<masterGrid.length; x++){
+      // loop over y axis and start within 6
+
+      // console.log('newArr[x]', newArr[x])
+      // console.log('newArr[x][0]', newArr[x][0])
+      if(newArr[x][0] === y){
+        // console.log('MATCH', newArr[x][1])
+        // console.log('x', x)
+        // console.log('y', y)
+        line = line.replaceAt(newArr[x][1],'*')
+      }
+      // console.log('*');
+  }  
+	console.log(line);
+}
+
+// INCORRECT GUESS --->   CFLELOYFOS
+
+
+/*
+                 
+ **  **** *    **** *     **  *   * ***  **   ***      
+*  * *    *    *         *  * *   **       * *    
+*    ***  *    ***  *       *  * * ***  *    *    
+*    *    *    *    *    *  *   *  *          **  
+*  * *    *    *    *    *  *   *  *    *  *    * 
+ **  *    **** **** ****  **    *  *     **  ***  
+
+*/
+
+
+
+// console.log(part2Answer);
+
+
+// console.log('Master: ', masterGrid)
