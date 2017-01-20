@@ -17,13 +17,26 @@ var demo5 = 'X(8x2)(3x3)ABCY';
 function process(input){
 	var length = input.length;
 	var tempCmd = '';
+	var startCmd = false;
 	
 	for(var i=0; i < length; i++){
 		console.log(input[i]);
 
 		if(input[i] === '('){
-			tempCmd +=
+			startCmd = true;
 		}
+
+		if(startCmd){
+			tempCmd += input[i];
+		}
+
+		if(input[i] === ')'){
+			startCmd = false;
+		}
+
+
+
+
 	}
 }
 
